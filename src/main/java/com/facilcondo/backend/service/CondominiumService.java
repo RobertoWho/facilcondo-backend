@@ -26,7 +26,6 @@ public class CondominiumService {
         CondominiumModel model = toModel(dto);
         CondominiumModel saved = repository.save(model);
         return toDTO(saved);
-
     }
 
     private CondominiumDTO toDTO(CondominiumModel model) {

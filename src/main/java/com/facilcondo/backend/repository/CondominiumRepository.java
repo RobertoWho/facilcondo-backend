@@ -1,10 +1,9 @@
 package com.facilcondo.backend.repository;
 
 import com.facilcondo.backend.model.CondominiumModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface CondominiumRepository {
-    List<CondominiumModel> findAll();
-    CondominiumModel save(CondominiumModel model);
+@Repository
+public interface CondominiumRepository extends JpaRepository<CondominiumModel, Long> {
 }
