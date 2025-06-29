@@ -1,7 +1,6 @@
 package com.facilcondo.backend.service;
 
-import com.facilcondo.backend.dto.CondominiumDTO;
-import com.facilcondo.backend.model.CondominiumModel;
+import com.facilcondo.backend.model.Condominium;
 import com.facilcondo.backend.repository.CondominiumRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,43 +15,35 @@ public class CondominiumService {
         this.repository = repository;
     }
 
-    public List<CondominiumDTO> getAll() {
-        return repository.findAll().stream()
-                .map(this::toDTO)
-                .toList();
+    public List<Condominium> getAll() {
+        return repository.findAll();
     }
 
-    public CondominiumDTO create(CondominiumDTO dto) {
-        CondominiumModel model = toModel(dto);
-        CondominiumModel saved = repository.save(model);
-        return toDTO(saved);
+    public Condominium getById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Condominium not found"));
     }
 
-    private CondominiumDTO toDTO(CondominiumModel model) {
-        return CondominiumDTO.builder()
-                .name(model.getName())
-                .street(model.getStreet())
-                .streetNumber(model.getStreetNumber())
-                .zipCode(model.getZipCode())
-                .city(model.getCity())
-                .province(model.getProvince())
-                .region(model.getRegion())
-                .country(model.getCountry())
-                .build();
+    public Condominium create(Condominium condominium) {
+        return repository.save(condominium);
     }
 
-    private CondominiumModel toModel(CondominiumDTO dto) {
-        return CondominiumModel.builder()
-                .name(dto.getName())
-                .street(dto.getStreet())
-                .streetNumber(dto.getStreetNumber())
-                .zipCode(dto.getZipCode())
-                .city(dto.getCity())
-                .province(dto.getProvince())
-                .region(dto.getRegion())
-                .country(dto.getCountry())
-                .build();
+    public Condominium update(Long id, Condominium updated) {
+        Condominium existing = getById(id);
+        existing.setName(updated.getName());
+        existing.setStreet(updated.getStreet());
+        existing.setStreetNumber(updated.getStreetNumber());
+        existing.setZipCode(updated.getZipCode());
+        existing.setCity(updated.getCity());
+        existing.setProvince(updated.getProvince());
+        existing.setRegion(updated.getRegion());
+        existing.setCountry(updated.getCountry());
+        existing.setAdministrator(updated.getAdministrator());
+        existing.setNotes(updated.getNotes());
+        existing.setIsActive(updated.getIsActive());
+        return repository.save(existing);
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }
-
-
