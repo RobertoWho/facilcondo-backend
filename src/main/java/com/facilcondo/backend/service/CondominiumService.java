@@ -1,5 +1,6 @@
 package com.facilcondo.backend.service;
 
+import com.facilcondo.backend.advice.exception.NotFoundException;
 import com.facilcondo.backend.model.Condominium;
 import com.facilcondo.backend.repository.CondominiumRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class CondominiumService {
     }
 
     public Condominium getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Condominium not found"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Condominium not found at this ID: " + id));
     }
 
     public Condominium create(Condominium condominium) {
@@ -44,6 +45,7 @@ public class CondominiumService {
     }
 
     public void delete(Long id) {
+        repository.findById(id).orElseThrow(() -> new NotFoundException("Condominium not found at this ID: " + id));
         repository.deleteById(id);
     }
 }

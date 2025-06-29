@@ -1,5 +1,6 @@
 package com.facilcondo.backend.service;
 
+import com.facilcondo.backend.advice.exception.NotFoundException;
 import com.facilcondo.backend.model.Work;
 import com.facilcondo.backend.repository.WorkRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class WorkService {
     }
 
     public Work getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Work not found"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Work not found at this ID: " + id));
     }
 
     public Work create(Work work) {
@@ -43,6 +44,7 @@ public class WorkService {
     }
 
     public void delete(Long id) {
+        repository.findById(id).orElseThrow(() -> new NotFoundException("Work not found at this ID: " + id));
         repository.deleteById(id);
     }
 }

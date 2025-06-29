@@ -1,5 +1,6 @@
 package com.facilcondo.backend.service;
 
+import com.facilcondo.backend.advice.exception.NotFoundException;
 import com.facilcondo.backend.model.Apartment;
 import com.facilcondo.backend.repository.ApartmentRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class ApartmentService {
     }
 
     public Apartment getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Apartment not found"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Apartment not found at this ID: " + id));
     }
 
     public Apartment create(Apartment apartment) {
@@ -40,6 +41,7 @@ public class ApartmentService {
     }
 
     public void delete(Long id) {
+        repository.findById(id).orElseThrow(() -> new NotFoundException("Apartment not found at this ID: " + id));
         repository.deleteById(id);
     }
 }

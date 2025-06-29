@@ -1,5 +1,6 @@
 package com.facilcondo.backend.service;
 
+import com.facilcondo.backend.advice.exception.NotFoundException;
 import com.facilcondo.backend.model.Event;
 import com.facilcondo.backend.repository.EventRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class EventService {
     }
 
     public Event getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Event not found"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Event not found at this ID:" + id));
     }
 
     public Event create(Event event) {
@@ -42,6 +43,7 @@ public class EventService {
     }
 
     public void delete(Long id) {
+        repository.findById(id).orElseThrow(() -> new NotFoundException("Event not found at this ID:" + id));
         repository.deleteById(id);
     }
 }

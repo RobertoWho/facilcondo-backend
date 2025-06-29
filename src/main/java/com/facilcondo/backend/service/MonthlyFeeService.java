@@ -1,5 +1,6 @@
 package com.facilcondo.backend.service;
 
+import com.facilcondo.backend.advice.exception.NotFoundException;
 import com.facilcondo.backend.model.MonthlyFee;
 import com.facilcondo.backend.repository.MonthlyFeeRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class MonthlyFeeService {
     }
 
     public MonthlyFee getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("MonthlyFee not found"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("MonthlyFee not found at this ID: " + id));
     }
 
     public MonthlyFee create(MonthlyFee monthlyFee) {
@@ -38,6 +39,7 @@ public class MonthlyFeeService {
     }
 
     public void delete(Long id) {
+        repository.findById(id).orElseThrow(() -> new NotFoundException("MonthlyFee not found at this ID: " + id));
         repository.deleteById(id);
     }
 }

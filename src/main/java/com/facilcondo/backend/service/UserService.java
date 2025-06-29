@@ -1,5 +1,6 @@
 package com.facilcondo.backend.service;
 
+import com.facilcondo.backend.advice.exception.NotFoundException;
 import com.facilcondo.backend.model.User;
 import com.facilcondo.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class UserService {
     }
 
     public User getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("User not found at this ID: " + id));
     }
 
     public User create(User user) {
@@ -40,6 +41,7 @@ public class UserService {
     }
 
     public void delete(Long id) {
+        repository.findById(id).orElseThrow(() -> new NotFoundException("User not found at this ID: " + id));
         repository.deleteById(id);
     }
 }
