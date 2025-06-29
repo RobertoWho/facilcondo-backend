@@ -14,8 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     // ✅ 400 - Validation Errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -33,6 +38,7 @@ public class GlobalExceptionHandler {
         body.put("message", "Validation failed");
         body.put("errors", errors);
 
+        logger.warn("Validation failed: {}", errors);
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
@@ -44,6 +50,7 @@ public class GlobalExceptionHandler {
         body.put("status", HttpStatus.NOT_FOUND.value());
         body.put("error", "Not Found");
         body.put("message", ex.getMessage());
+        logger.info("NotFoundException: {}", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
@@ -56,6 +63,7 @@ public class GlobalExceptionHandler {
         body.put("status", HttpStatus.CONFLICT.value());
         body.put("error", "Conflict");
         body.put("message", ex.getMessage());
+        logger.warn("ConflictException: {}", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }

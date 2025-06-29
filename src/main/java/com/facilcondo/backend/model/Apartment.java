@@ -1,6 +1,8 @@
 package com.facilcondo.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -16,9 +18,17 @@ public class Apartment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(min = 1, max = 20)
     private String number;
+
+    @Size(max = 20)
     private String floor;
+
+    @Size(max = 50)
     private String buildingBlock;
+
+    @Size(max = 300)
     private String notes;
 
     @ManyToOne

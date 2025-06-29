@@ -1,6 +1,8 @@
 package com.facilcondo.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -24,14 +26,18 @@ public abstract class AbstractPaymentShare {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotNull
     private Double amount;
 
+    @NotNull
     private Boolean isPaid = false;
 
+    @NotNull
     private LocalDateTime paymentDate;
 
     private String paymentMethod;
 
+    @Size(max = 300)
     private String notes;
 
     private Double paidAmount = 0.0;

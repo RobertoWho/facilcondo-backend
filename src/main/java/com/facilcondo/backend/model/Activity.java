@@ -1,6 +1,8 @@
 package com.facilcondo.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -19,8 +21,12 @@ public abstract class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(min = 2, max = 100)
     private String title;
+    @Size(max = 300)
     private String description;
+    @NotNull
     private LocalDateTime dateTime;
 
     @ManyToOne
@@ -30,7 +36,7 @@ public abstract class Activity {
     @ManyToOne
     @JoinColumn(name = "created_by")
     private User createdBy;
-
+    @Size(max = 300)
     private String notes;
     private String attachments;
     private Boolean isActive = true;
